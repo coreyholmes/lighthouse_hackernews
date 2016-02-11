@@ -6,36 +6,62 @@ require_relative 'comment'
 require_relative 'post'
 require_relative 'options'
 
-# Page to scrap
-# ------------------------------------------------------
-# page = "https://news.ycombinator.com/item?id=7663775"
-# scrap = Nokogiri::HTML(open(page))   
-
 # Doc to scrap
 # ------------------------------------------------------
 url = ARGV[0]
 DOC = Nokogiri::HTML(open("#{url}"))
+LINE = "\n" + "-" * 55 + "\n\n"
 
-LINE = "-" * 55
+# ======================================================
+# Commands
+# ======================================================                 
+
+# You can run this command in your terminal. 
+# ruby main.rb https://news.ycombinator.com/item?id=7663775
+
+# You can replace the URL with any URL from ycombinator 
+# Hacker News.
+
+# That's all there is to is.
 
 # ======================================================
 # Program
 # ======================================================
 
 system "clear"
+
+puts art = '
+██╗  ██╗ █████╗  ██████╗██╗  ██╗███████╗██████╗ 
+██║  ██║██╔══██╗██╔════╝██║ ██╔╝██╔════╝██╔══██╗
+███████║███████║██║     █████╔╝ █████╗  ██████╔╝
+██╔══██║██╔══██║██║     ██╔═██╗ ██╔══╝  ██╔══██╗
+██║  ██║██║  ██║╚██████╗██║  ██╗███████╗██║  ██║
+╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
+                                                
+███╗   ██╗███████╗██╗    ██╗███████╗            
+████╗  ██║██╔════╝██║    ██║██╔════╝            
+██╔██╗ ██║█████╗  ██║ █╗ ██║███████╗            
+██║╚██╗██║██╔══╝  ██║███╗██║╚════██║            
+██║ ╚████║███████╗╚███╔███╔╝███████║            
+╚═╝  ╚═══╝╚══════╝ ╚══╝╚══╝ ╚══════╝                                                        
+'
 post = Post.scrap
 puts LINE
 puts "#{post.title.white.on_red.bold}"
 puts LINE
-puts "Written By: #{post.username}"
+puts "Written By: #{post.username}".underline + "Date: #{post.date}".underline.rjust(45)
 puts "Article ID: #{post.item_id}"
 puts "Rank: #{post.points}"
+# puts "Date: #{post.date}"
 
 puts LINE
 puts "Comments: #{post.number_of_comments} count"
-puts LINE
-
-puts "[1] View Post [2] View Comments"
+puts '
+███████████████████████████████████████████████████████           
+╚═════════════════════════════════════════════════════╝
+'
+puts "\n\n"
+print "[1] View Post [2] View Comments".rjust(41)
 selected = STDIN.gets.chomp
 READ = Nokogiri::HTML(open("#{post.url}"))
 
@@ -46,4 +72,6 @@ elsif selected == '2'
 else
 
 end
+
+
 

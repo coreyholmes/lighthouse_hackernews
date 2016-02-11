@@ -2,12 +2,13 @@
 # Posts
 #=================================
 class Post
-  attr_reader :title, :username, :url, :points, :item_id
+  attr_reader :title, :username, :url, :points, :item_id, :date
 
-  def initialize(title, username, url, points, item_id)
+  def initialize(title, username, date, url, points, item_id)
     @title = title
     @username = username
     @url = url
+    @date = date
     @points = points
     @item_id = item_id
   end
@@ -30,10 +31,15 @@ class Post
   def self.scrap
     #Get Title
     title = DOC.search('.title > a').inner_text
+
     #Get Username
     username = DOC.search('.subtext > a').map { |a| a.inner_text}
     username = username[0]
 
+    # #Get Date
+    date = DOC.search('.age > a').map { |a| a.inner_text }
+    date = date[0]
+    
     #Get URL
     url = DOC.search('.title > a').map { |link| link['href']}
     url = url[0]
@@ -47,7 +53,7 @@ class Post
     item_id = id[0]
 
     #Return Post.new(title, url, points, item_id)
-    Post.new(title, username, url, points, item_id)
+    Post.new(title, username, date, url, points, item_id)
   end
 end
 
